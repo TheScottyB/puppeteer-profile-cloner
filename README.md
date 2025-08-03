@@ -17,6 +17,15 @@ A tool for cloning and managing browser profiles using Puppeteer, designed for a
 
 ## Installation
 
+### Global Installation
+
+```bash
+# Install globally using PNPM
+pnpm install -g puppeteer-profile-cloner
+```
+
+### Development Installation
+
 ```bash
 # Clone the repository
 git clone https://github.com/TheScottyB/puppeteer-profile-cloner.git
@@ -28,12 +37,100 @@ pnpm install
 
 ## Usage
 
+### Programmatic API
+
+You can use the library programmatically in your Node.js applications:
+
+```ts
+import { cloneProfile, launchBrowser, cleanupProfile } from 'puppeteer-profile-cloner';
+
+// Clone a profile
+const profilePath = await cloneProfile('./my-test-profile');
+
+// Launch browser with the cloned profile
+const browser = await launchBrowser(profilePath);
+
+// Use the browser for your automation tasks
+const page = await browser.newPage();
+await page.goto('https://example.com');
+
+// Clean up when done
+await browser.close();
+await cleanupProfile(profilePath);
+```
+
+#### Build and Test
+
 ```bash
 # Build the project
 pnpm build
 
-# Run the profile cloner
-pnpm start
+# Use the programmatic API
+node dist/example.js
+```
+
+### CLI Interface
+
+After building the project, you can use the CLI:
+
+```bash
+# Install globally for system-wide access
+npm install -g .
+
+# Or use directly from the built dist folder
+./dist/cli.js --help
+```
+
+#### CLI Commands
+
+**Clone a profile:**
+```bash
+# Clone to default location (~/AutomationProfile)
+profile-cloner clone
+
+# Clone to custom directory
+profile-cloner clone ./my-test-profile
+
+# Clone with verbose output
+profile-cloner clone --verbose /tmp/test-profile
+```
+
+**Launch browser with cloned profile:**
+```bash
+# Clone and launch browser (default location)
+profile-cloner launch
+
+# Clone to custom directory and launch
+profile-cloner launch ./my-profile
+
+# Launch in headless mode
+profile-cloner launch --headless
+
+# Launch without extensions
+profile-cloner launch --no-extensions
+```
+
+**Clean up profiles:**
+```bash
+# Clean default profile (requires --force)
+profile-cloner clean --force
+
+# Clean custom profile
+profile-cloner clean ./my-profile --force
+
+# Clean with verbose output
+profile-cloner clean --verbose --force /tmp/test-profile
+```
+
+**Get help:**
+```bash
+# General help
+profile-cloner --help
+
+# Command-specific help
+profile-cloner clone --help
+profile-cloner launch --help
+profile-cloner clean --help
 ```
 
 ## Development

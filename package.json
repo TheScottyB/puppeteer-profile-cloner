@@ -4,8 +4,14 @@
   "type": "module",
   "description": "A tool for cloning browser profiles using Puppeteer",
   "main": "index.js",
+  "bin": {
+    "profile-cloner": "./dist/cli.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "node --loader ts-node/esm src/cli.ts",
+    "prepublishOnly": "pnpm build",
+    "test": "echo \"No tests yet\""
   },
   "keywords": [
     "puppeteer",
@@ -29,5 +35,8 @@
     "@types/node": "^24.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "ts-node": {
+    "esm": true
   }
 }
